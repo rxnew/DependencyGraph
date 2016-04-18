@@ -15,12 +15,12 @@ Constructor<V>::Constructor(const OrderedVertices& vertices)
 }
 
 template <class V>
-inline auto Constructor<V>::leaveFootprint(const V& v) const -> void {
+inline auto Constructor<V>::_leaveFootprint(const V& v) const -> void {
   this->footprints_.insert(v);
 }
 
 template <class V>
-inline auto Constructor<V>::existFootprint(const V& v) const -> bool {
+inline auto Constructor<V>::_existFootprint(const V& v) const -> bool {
   return this->footprints_.cend() != this->footprints_.find(v);
 }
 
@@ -31,8 +31,8 @@ inline auto Constructor<V>::getGraph() const -> const Graph<V>& {
 
 template <class V>
 auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
-  if(this->existFootprint(v)) return false;
-  this->leaveFootprint(v);
+  if(this->_existFootprint(v)) return false;
+  this->_leaveFootprint(v);
   bool add_flg = false;
   for(auto* const next : this->graph_.getNextVertices(v)) {
     add_flg |= this->addVertex(next);

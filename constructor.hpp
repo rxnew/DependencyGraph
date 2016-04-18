@@ -17,8 +17,8 @@ class Constructor {
   Vertices sources_;
   Vertices footprints_;
 
-  auto leaveFootprint(const V& v) const -> void;
-  auto existFootprint(const V& v) const -> bool;
+  auto _leaveFootprint(const V& v) const -> void;
+  auto _existFootprint(const V& v) const -> bool;
 
  public:
   Constructor() = default;
