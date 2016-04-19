@@ -1,6 +1,7 @@
 namespace dep {
 template <class V>
-inline Constructor<V>::Constructor(Graph&& graph) : graph_(std::move(graph)) {
+inline Constructor<V>::Constructor(Graph&& graph)
+  : graph_(std::move(graph)), source_(this->graph_.getSourceVertices()) {
 }
 
 template <class V>
@@ -15,17 +16,7 @@ Constructor<V>::Constructor(const OrderedVertices& vertices)
 }
 
 template <class V>
-inline auto Constructor<V>::_leaveFootprint(const V& v) const -> void {
-  this->footprints_.insert(v);
-}
-
-template <class V>
-inline auto Constructor<V>::_existFootprint(const V& v) const -> bool {
-  return this->footprints_.cend() != this->footprints_.find(v);
-}
-
-template <class V>
-inline auto Constructor<V>::getGraph() const -> const Graph<V>& {
+inline auto Constructor<V>::getGraph() const -> const Graph& {
   return this->graph_;
 }
 
@@ -34,7 +25,7 @@ auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
   if(this->_existFootprint(v)) return false;
   this->_leaveFootprint(v);
   bool add_flg = false;
-  for(auto* const next : this->graph_.getNextVertices(v)) {
+  for(const auto& next : this->graph_.getNextVertices(v)) {
     add_flg |= this->addVertex(next);
   }
   if(add_flg) return true;
@@ -46,12 +37,12 @@ auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
 template <class V>
 auto Constructor<V>::addVertex(const V& v) -> void {
   this->graph_.addVertex(v);
-  this->footprints_.clear();
+  this->_clearFootprints();
   if(this->sources_.empty()) {
     this->sources_.insert(v);
     return;
   }
-  for(auto* source : this->sources_) {
+  for(const auto& source : this->sources_) {
     this->addVertex(v, source);
   }
   if(!this->graph_.getInDegree(v)) this->sources_.insert(v);
@@ -60,7 +51,7 @@ auto Constructor<V>::addVertex(const V& v) -> void {
 template <class V>
 template <class OrderedVertices>
 auto Constructor<V>::addVertices(const OrderedVertices& vertices) -> void {
-  for(auto& v : vertices) {
+  for(const auto& v : vertices) {
     this->addVertex(v);
   }
 }

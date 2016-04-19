@@ -35,9 +35,34 @@ inline auto Graph<V>::getVertices() const -> const Vertices& {
 }
 
 template <class V>
+auto Graph<V>::getSourceVertices() const -> Vertices {
+  Vertices source_vertices;
+  for(const auto& v : this->vertices_) {
+    if(!this->getIndegree(v)) source_vertices.insert(v);
+  }
+  return std::move(source_vertices);
+}
+
+template <class V>
+auto Graph<V>::getSinkVertices() const -> Vertices {
+  Vertices sink_vertices;
+  for(const auto& v : this->vertices_) {
+    if(!this->getOutdegree(v)) sink_vertices.insert(v);
+  }
+  return std::move(sink_vertices);
+}
+
+template <class V>
 inline auto Graph<V>::getNextVertices(const V& v) const -> const Vertices& {
   auto pos = this->next_.find(v);
   assert(pos != this->next_.cend());
+  return pos->second;
+}
+
+template <class V>
+inline auto Graph<V>::getPrevVertices(const V& v) const -> const Vertices& {
+  auto pos = this->prev_.find(v);
+  assert(pos != this->prev_.cend());
   return pos->second;
 }
 
@@ -55,7 +80,12 @@ inline auto Graph<V>::getOutdegree(const V& v) const -> size_t {
 
 template <class V>
 inline auto Graph<V>::getIndegree(const V& v) const -> size_t {
-  return this->gePrevVertices(v).size();
+  return this->getPrevVertices(v).size();
+}
+
+template <class V>
+inline auto Graph<V>::getSize() const -> size_t {
+  return this->vertices.size();
 }
 
 template <class V>

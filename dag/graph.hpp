@@ -16,6 +16,7 @@ class Graph {
   using AdjacencyList = std::unordered_map<V, Vertices>;
 
  private:
+  Vertices vertices_;
   AdjacencyList next_;
   AdjacencyList prev_;
 
@@ -25,14 +26,17 @@ class Graph {
   explicit Graph(const Vertices& vertices);
   explicit Graph(Vertices&& vertices);
   Graph(const Graph&) = default;
-  Graph(Graph&&) = default;
+  Graph(Graph&&) noexcept = default;
   ~Graph() = default;
 
   auto getVertices() const -> const Vertices&;
+  auto getSourceVertices() const -> Vertices;
+  auto getSinkVertices() const -> Vertices;
   auto getNextVertices(const V& v) const -> const Vertices&;
   auto getPrevVertices(const V& v) const -> const Vertices&;
   auto getOutdegree(const V& v) const -> size_t;
   auto getIndegree(const V& v) const -> size_t;
+  auto getSize() const -> size_t;
   auto addVertex(const V& v) -> void;
   auto removeVertex(const V& v) -> void;
   auto addEdge(const V& v, const V& u) -> void;

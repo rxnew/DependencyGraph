@@ -5,20 +5,17 @@
 
 #pragma once
 
-#include "dag/graph.hpp"
+#include "footprints.hpp"
 
 namespace dep {
-using dag::Graph;
-
-template <class Node>
-class Constructor {
+template <class V>
+class Constructor : Footprints<V> {
  private:
-  Graph<V> graph_;
-  Vertices sources_;
-  Vertices footprints_;
+  using Graph = dag::Graph<V>;
+  using Vertices = Graph::Vertices;
 
-  auto _leaveFootprint(const V& v) const -> void;
-  auto _existFootprint(const V& v) const -> bool;
+  Graph graph_;
+  Vertices sources_;
 
  public:
   Constructor() = default;
@@ -27,10 +24,10 @@ class Constructor {
   template <class OrderedVertices>
   explicit Constructor(const Vertices& nodes);
   Constructor(const Constructor&) = default;
-  Constructor(Constructor&&) = default;
+  Constructor(Constructor&&) noexcept = default;
   ~Constructor() = default;
 
-  auto getGraph() const -> const Graph<V>&;
+  auto getGraph() const -> const Graph&;
   auto addVertex(const V& v, const V& prev) -> bool;
   auto addVertex(const V& v) -> void;
   template <class OrderedVertices>
