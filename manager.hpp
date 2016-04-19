@@ -37,7 +37,7 @@ class Manager : Footprints<V> {
   auto countDependentVertices(const V& v) -> int;
   template <template <class...> class T>
   auto countDependentVertices(const T<V>& vertices) const -> int;
-  auto createCriticalPathMap() const -> std::unordered_map<V, int>;
+  auto createCriticalPathList() const -> std::unordered_map<V, int>;
 };
 }
 

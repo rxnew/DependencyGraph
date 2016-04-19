@@ -73,25 +73,18 @@ inline auto Manager<V>::countDependentVertices(const T<V>& vertices) const
 }
 
 template <class V>
-auto Manager<V>::createCriticalPathMap() const -> std::unordered_map<V, int> {
+auto Manager<V>::createCriticalPathList() const -> std::unordered_map<V, int> {
   std::unordered_map<V, int> critical_path;
   std::function<void(const V&)> update;
-
-  for(const auto& v : this->graph_.getVertices()) {
-    critical_path.emplace(v, 0);
-  }
-
   for(const auto& sink : this->graph_.getSinkVertices()) {
-    critical_path[sink] = 0;
     (update = [&](const V& v) {
       for(const auto& prev : this->graph_.getPrevVertices(v)) {
-        if(critical_path[v] + 1 < critical_path[prev]) continue;
+        if(critical_path[v] + 1 <= critical_path[prev]) continue;
         critical_path[prev] = critical_path[v] + 1;
         update(prev);
       }
     })(sink);
   }
-
   return std::move(critical_path);
 }
 }

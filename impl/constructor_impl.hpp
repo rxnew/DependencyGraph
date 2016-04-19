@@ -29,7 +29,7 @@ auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
     add_flg |= this->addVertex(next);
   }
   if(add_flg) return true;
-  if(!isDependent(prev, v)) return false;
+  if(!dep::isDependent(prev, v)) return false;
   this->graph_.addEdge(prev, v);
   return true;
 }
