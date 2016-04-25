@@ -1,8 +1,5 @@
 #pragma once
 
-#include "constructor.hpp"
-#include "manager.hpp"
-
 namespace dep {
 template <class V>
 using Graph = graph::DirectedGraph<V>;
@@ -12,3 +9,6 @@ using Graph = graph::DirectedGraph<V>;
 template <class V>
 auto isDependent(const V& v, const V& u) -> bool;
 }
+
+#include "constructor.hpp"
+#include "manager.hpp"

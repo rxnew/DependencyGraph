@@ -1,3 +1,5 @@
+#include <functional>
+
 namespace dep {
 template <class V>
 Manager<V>::Manager(const Graph& graph)
@@ -35,7 +37,7 @@ inline auto Manager<V>::isCompleted() const -> bool {
 }
 
 template <class V>
-auto Manager<V>::canActivate(const V& v) -> bool {
+auto Manager<V>::canActivate(const V& v) const -> bool {
   for(const auto& prev : this->graph_.getPrevVertices(v)) {
     if(!this->isChecked(prev)) return false;
   }

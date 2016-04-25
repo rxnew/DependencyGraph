@@ -1,7 +1,7 @@
 namespace dep {
 template <class V>
 inline Constructor<V>::Constructor(Graph&& graph)
-  : graph_(std::move(graph)), source_(this->graph_.getSourceVertices()) {
+  : graph_(std::move(graph)), sources_(this->graph_.getSourceVertices()) {
 }
 
 template <class V>

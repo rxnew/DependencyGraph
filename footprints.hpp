@@ -12,7 +12,7 @@ template <class V>
 class Footprints {
  protected:
   using Graph = graph::DirectedGraph<V>;
-  using Vertices = Graph::Vertices;
+  using Vertices = typename Graph::Vertices;
 
   mutable Vertices footprints_;
 

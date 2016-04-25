@@ -11,8 +11,9 @@ namespace dep {
 template <class V>
 class Constructor : Footprints<V> {
  private:
-  using Graph = Footprints<V>::Graph;
-  using Vertices = Graph::Vertices;
+  using Super = Footprints<V>;
+  using Graph = typename Super::Graph;
+  using Vertices = typename Super::Vertices;
 
   Graph graph_;
   Vertices sources_;
@@ -22,7 +23,7 @@ class Constructor : Footprints<V> {
   explicit Constructor(Graph&& graph);
   explicit Constructor(size_t size);
   template <class OrderedVertices>
-  explicit Constructor(const Vertices& nodes);
+  explicit Constructor(const OrderedVertices& nodes);
   Constructor(const Constructor&) = default;
   Constructor(Constructor&&) noexcept = default;
   ~Constructor() = default;
