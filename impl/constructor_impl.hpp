@@ -21,16 +21,16 @@ inline auto Constructor<V>::getGraph() const -> const Graph& {
 }
 
 template <class V>
-auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
-  if(this->footprints_.exist(v)) return false;
-  this->footprints_.leave(v);
+auto Constructor<V>::addVertex(const V& v, const V& pos) -> bool {
+  if(this->footprints_.exist(pos)) return false;
+  this->footprints_.leave(pos);
   bool add_flg = false;
-  for(const auto& next : this->graph_.getNextVertices(v)) {
+  for(const auto& next : this->graph_.getNextVertices(pos)) {
     add_flg |= this->addVertex(v, next);
   }
   if(add_flg) return true;
-  if(!dep::isDependent(prev, v)) return false;
-  this->graph_.addEdge(prev, v);
+  if(!dep::isDependent(pos, v)) return false;
+  this->graph_.addEdge(pos, v);
   return true;
 }
 

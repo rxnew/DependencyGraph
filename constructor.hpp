@@ -32,7 +32,7 @@ class Constructor {
   auto operator=(Constructor&&) -> Constructor& = default;
 
   auto getGraph() const -> const Graph&;
-  auto addVertex(const V& v, const V& prev) -> bool;
+  auto addVertex(const V& v, const V& pos) -> bool;
   auto addVertex(const V& v) -> void;
   template <class OrderedVertices>
   auto addVertices(const OrderedVertices& vertices) -> void;

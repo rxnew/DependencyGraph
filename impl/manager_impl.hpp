@@ -79,7 +79,7 @@ auto Manager<V>::check(const V& v) -> void {
   this->checked_.insert(v);
   this->active_.erase(v);
   for(const auto& next : this->graph_.getNextVertices(v)) {
-    if(this->canActivate(v)) this->active_.insert(next);
+    if(this->canActivate(next)) this->active_.insert(next);
   }
 }
 
