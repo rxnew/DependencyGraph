@@ -9,14 +9,14 @@
 
 namespace dep {
 template <class V>
-class Constructor : Footprints<V> {
- private:
-  using Super = Footprints<V>;
-  using Graph = typename Super::Graph;
-  using Vertices = typename Super::Vertices;
+class Constructor {
+ private: 
+  using Graph = graph::DirectedGraph<V>;
+  using Vertices = typename Graph::Vertices;
 
   Graph graph_;
   Vertices sources_;
+  mutable Footprints<V> footprints_;
 
  public:
   Constructor() = default;

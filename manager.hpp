@@ -9,27 +9,27 @@
 
 namespace dep {
 template <class V>
-class Manager : Footprints<V> {
+class Manager {
  private:
-  using Super = Footprints<V>;
-  using Graph = typename Super::Graph;
-  using Vertices = typename Super::Vertices;
+  using Graph = graph::DirectedGraph<V>;
+  using Vertices = typename Graph::Vertices;
 
   const Graph& graph_;
   Vertices active_;
   Vertices checked_;
+  mutable Footprints<V> footprints_;
 
   template <template <class...> class T>
   auto _countDependentVertices(const T<V>& vertices) const -> int;
 
  public:
   explicit Manager(const Graph& graph);
-  Manager(const Manager&) = default;
-  Manager(Manager&&) noexcept = default;
+  Manager(const Manager& other);
+  Manager(Manager&& other) noexcept;
   ~Manager() = default;
 
-  auto operator=(const Manager&) -> Manager& = default;
-  auto operator=(Manager&&) -> Manager& = default;
+  auto operator=(const Manager& other) -> Manager&;
+  auto operator=(Manager&& other) -> Manager&;
 
   auto getActiveVertices() const -> const Vertices&;
   auto isChecked(const V& v) const -> bool;

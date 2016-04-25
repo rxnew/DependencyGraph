@@ -9,12 +9,42 @@ Manager<V>::Manager(const Graph& graph)
 }
 
 template <class V>
+Manager<V>::Manager(const Manager& other)
+  : graph_(other.graph_),
+    active_(other.active_),
+    checked_(other.checked_) {
+}
+
+template <class V>
+Manager<V>::Manager(Manager&& other) noexcept
+  : graph_(other.graph_),
+    active_(std::move(other.active_)),
+    checked_(std::move(other.checked_)) {
+}
+
+template <class V>
+auto Manager<V>::operator=(const Manager& other) -> Manager& {
+  assert(&this->graph_ == &other.graph_);
+  this->active_ = other.active_;
+  this->checked_ = other.checked_;
+  return *this;
+}
+
+template <class V>
+auto Manager<V>::operator=(Manager&& other) -> Manager& {
+  assert(&this->graph_ == &other.graph_);
+  this->active_ = std::move(other.active_);
+  this->checked_ = std::move(other.checked_);
+  return *this;
+}
+
+template <class V>
 template <template <class...> class T>
 auto Manager<V>::_countDependentVertices(const T<V>& vertices) const -> int {
   int count = 0;
   for(const auto& v : vertices) {
-    if(this->_existFootprint(v)) continue;
-    this->_leaveFootprint(v);
+    if(this->footprints_.exist(v)) continue;
+    this->footprints_.leave(v);
     const auto& next = this->graph_.getNextVertices(v);
     count += this->_countDependentVertices(next) + next.size();
   }
@@ -70,7 +100,7 @@ template <class V>
 template <template <class...> class T>
 inline auto Manager<V>::countDependentVertices(const T<V>& vertices) const
   -> int {
-  this->_clearFootprints();
+  this->footprints_.clear();
   return this->_countDependentVertices(vertices);
 }
 

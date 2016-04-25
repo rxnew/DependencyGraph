@@ -22,11 +22,11 @@ inline auto Constructor<V>::getGraph() const -> const Graph& {
 
 template <class V>
 auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
-  if(this->_existFootprint(v)) return false;
-  this->_leaveFootprint(v);
+  if(this->footprints_.exist(v)) return false;
+  this->footprints_.leave(v);
   bool add_flg = false;
   for(const auto& next : this->graph_.getNextVertices(v)) {
-    add_flg |= this->addVertex(next);
+    add_flg |= this->addVertex(v, next);
   }
   if(add_flg) return true;
   if(!dep::isDependent(prev, v)) return false;
@@ -37,7 +37,7 @@ auto Constructor<V>::addVertex(const V& v, const V& prev) -> bool {
 template <class V>
 auto Constructor<V>::addVertex(const V& v) -> void {
   this->graph_.addVertex(v);
-  this->_clearFootprints();
+  this->footprints_.clear();
   if(this->sources_.empty()) {
     this->sources_.insert(v);
     return;
@@ -45,7 +45,7 @@ auto Constructor<V>::addVertex(const V& v) -> void {
   for(const auto& source : this->sources_) {
     this->addVertex(v, source);
   }
-  if(!this->graph_.getInDegree(v)) this->sources_.insert(v);
+  if(!this->graph_.getIndegree(v)) this->sources_.insert(v);
 }
 
 template <class V>

@@ -5,23 +5,26 @@
 
 #pragma once
 
+#include <unordered_set>
+
 namespace dep {
-using graph::DirectedGraph;
-
-template <class V>
+template <class T>
 class Footprints {
- protected:
-  using Graph = graph::DirectedGraph<V>;
-  using Vertices = typename Graph::Vertices;
+ private:
+  std::unordered_set<T> footprints_;
 
-  mutable Vertices footprints_;
+ public:
+  Footprints() = default;
+  Footprints(const Footprints&) = default;
+  Footprints(Footprints&&) noexcept = default;
+  ~Footprints() = default;
 
-  auto _clearFootprints() const -> void;
-  auto _leaveFootprint(const V& v) const -> void;
-  auto _existFootprint(const V& v) const -> bool;
+  auto operator=(const Footprints&) -> Footprints& = default;
+  auto operator=(Footprints&&) -> Footprints& = default;
 
-  Footprints() = delete;
-  virtual ~Footprints() = default;
+  auto clear() -> void;
+  auto leave(const T& x) -> void;
+  auto exist(const T& x) const -> bool;
 };
 }
 
