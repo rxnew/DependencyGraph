@@ -28,6 +28,9 @@ class Constructor : Footprints<V> {
   Constructor(Constructor&&) noexcept = default;
   ~Constructor() = default;
 
+  auto operator=(const Constructor&) -> Constructor& = default;
+  auto operator=(Constructor&&) -> Constructor& = default;
+
   auto getGraph() const -> const Graph&;
   auto addVertex(const V& v, const V& prev) -> bool;
   auto addVertex(const V& v) -> void;

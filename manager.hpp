@@ -28,6 +28,9 @@ class Manager : Footprints<V> {
   Manager(Manager&&) noexcept = default;
   ~Manager() = default;
 
+  auto operator=(const Manager&) -> Manager& = default;
+  auto operator=(Manager&&) -> Manager& = default;
+
   auto getActiveVertices() const -> const Vertices&;
   auto isChecked(const V& v) const -> bool;
   auto isCompleted() const -> bool;
