@@ -1,3 +1,4 @@
+#include <iostream>
 #include <functional>
 
 namespace dep {
@@ -92,6 +93,12 @@ auto Manager<V>::check(const T<V>& vertices) -> void {
 }
 
 template <class V>
+auto Manager<V>::clear() -> void {
+  this->active_ = this->graph_.getSourceVertices();
+  this->checked_.clear();
+}
+
+template <class V>
 inline auto Manager<V>::countDependentVertices(const V& v) const -> int {
   return this->_countDependentVertices(this->graph_.getNextVertices(v));
 }
@@ -106,6 +113,7 @@ inline auto Manager<V>::countDependentVertices(const T<V>& vertices) const
 
 template <class V>
 auto Manager<V>::createCriticalPathList() const -> std::unordered_map<V, int> {
+  std::cout << "call" << std::endl;
   std::unordered_map<V, int> critical_path;
   std::function<void(const V&)> update;
   for(const auto& sink : this->graph_.getSinkVertices()) {

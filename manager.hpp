@@ -38,6 +38,7 @@ class Manager {
   auto check(const V& v) -> void;
   template <template <class...> class T>
   auto check(const T<V>& vertices) -> void;
+  auto clear() -> void;
   auto countDependentVertices(const V& v) const -> int;
   template <template <class...> class T>
   auto countDependentVertices(const T<V>& vertices) const -> int;
