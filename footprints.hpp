@@ -5,15 +5,15 @@
 
 #pragma once
 
-#include "dag/graph.hpp"
+#include "graph.hpp"
 
 namespace dep {
-using dag::Graph;
+using graph::DirectedGraph;
 
 template <class V>
 class Footprints {
  protected:
-  using Graph = dag::Graph<V>;
+  using Graph = graph::DirectedGraph<V>;
   using Vertices = Graph::Vertices;
 
   mutable Vertices footprints_;

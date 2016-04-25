@@ -11,7 +11,7 @@ namespace dep {
 template <class V>
 class Constructor : Footprints<V> {
  private:
-  using Graph = dag::Graph<V>;
+  using Graph = Footprints<V>::Graph;
   using Vertices = Graph::Vertices;
 
   Graph graph_;
