@@ -1,4 +1,3 @@
-#include <iostream>
 #include <functional>
 
 namespace dep {
@@ -113,7 +112,6 @@ inline auto Manager<V>::countDependentVertices(const T<V>& vertices) const
 
 template <class V>
 auto Manager<V>::createCriticalPathList() const -> std::unordered_map<V, int> {
-  std::cout << "call" << std::endl;
   std::unordered_map<V, int> critical_path;
   std::function<void(const V&)> update;
   for(const auto& sink : this->graph_.getSinkVertices()) {
