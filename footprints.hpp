@@ -5,8 +5,6 @@
 
 #pragma once
 
-#include "graph.hpp"
-
 namespace dep {
 using graph::DirectedGraph;
 
