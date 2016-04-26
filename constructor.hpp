@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include "footprints.hpp"
 
 namespace dep {
@@ -14,24 +16,24 @@ class Constructor {
   using Graph = graph::DirectedGraph<V>;
   using Vertices = typename Graph::Vertices;
 
-  Graph graph_;
+  std::unique_ptr<Graph> graph_;
   Vertices sources_;
   mutable Footprints<V> footprints_;
 
  public:
-  Constructor() = default;
-  explicit Constructor(Graph&& graph);
+  Constructor();
+  explicit Constructor(std::unique_ptr<Graph>&& graph);
+  explicit Constructor(Graph*&& graph);
   explicit Constructor(size_t size);
   template <class OrderedVertices>
   explicit Constructor(const OrderedVertices& nodes);
-  Constructor(const Constructor&) = default;
   Constructor(Constructor&&) noexcept = default;
   ~Constructor() = default;
 
-  auto operator=(const Constructor&) -> Constructor& = default;
   auto operator=(Constructor&&) -> Constructor& = default;
 
   auto getGraph() const -> const Graph&;
+  auto moveGraph() -> std::unique_ptr<Graph>;
   auto addVertex(const V& v, const V& pos) -> bool;
   auto addVertex(const V& v) -> void;
   template <class OrderedVertices>

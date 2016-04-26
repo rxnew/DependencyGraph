@@ -5,6 +5,8 @@
 
 #pragma once
 
+#include <memory>
+
 #include "footprints.hpp"
 
 namespace dep {
@@ -14,7 +16,7 @@ class Manager {
   using Graph = graph::DirectedGraph<V>;
   using Vertices = typename Graph::Vertices;
 
-  const Graph& graph_;
+  std::shared_ptr<Graph> graph_;
   Vertices active_;
   Vertices checked_;
   mutable Footprints<V> footprints_;
@@ -23,7 +25,7 @@ class Manager {
   auto _countDependentVertices(const T<V>& vertices) const -> int;
 
  public:
-  explicit Manager(const Graph& graph);
+  explicit Manager(const std::shared_ptr<Graph>& graph);
   Manager(const Manager& other);
   Manager(Manager&& other) noexcept;
   ~Manager() = default;
